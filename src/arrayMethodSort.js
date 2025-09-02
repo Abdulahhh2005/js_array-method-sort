@@ -26,12 +26,28 @@ function applyCustomSort() {
       };
     }
 
-    for (let first = 0; first < this.length; first++) {
-      for (let second = first + 1; second < this.length; second++) {
-        if (cmp(this[first], this[second]) > 0) {
-          [this[first], this[second]] = [this[second], this[first]];
+    const defined = [];
+
+    for (let i = 0; i < this.length; i++) {
+      if (i in this) {
+        defined.push(this[i]);
+      }
+    }
+
+    for (let first = 0; first < defined.length; first++) {
+      for (let second = first + 1; second < defined.length; second++) {
+        if (cmp(defined[first], defined[second]) > 0) {
+          [defined[first], defined[second]] = [defined[second], defined[first]];
         }
       }
+    }
+
+    for (let i = 0; i < defined.length; i++) {
+      this[i] = defined[i];
+    }
+
+    for (let i = defined.length; i < this.length; i++) {
+      delete this[i];
     }
 
     return this;
